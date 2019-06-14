@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Teacher App</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="hint_name">Full Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_sign_in">Sign In</string>
+
+    <string name="err_msg_name">Enter your full name</string>
+    <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_password">Enter the password</string>
+    <string name="profile">Profile</string>
+    <string name="about">About</string>
+    <string name="exit">Exit</string>
+    <string name="welcome">Welcome</string>
+</resources>
