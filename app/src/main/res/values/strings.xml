@@ -15,4 +15,8 @@
     <string name="about">About</string>
     <string name="exit">Exit</string>
     <string name="welcome">Welcome</string>
+    <string name="choose_paper">Choose Paper</string>
+    <string name="subjects">Subjects</string>
+    <string name="stream">Stream</string>
+    <string name="list_students">List Students</string>
 </resources>

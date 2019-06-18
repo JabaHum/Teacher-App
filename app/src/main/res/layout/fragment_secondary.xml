@@ -13,39 +13,69 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/txt_view_class"
+            android:layout_margin="2dp"
+            android:padding="2dp"
+            android:textSize="18sp"
+            android:id="@+id/txt_view_class_secondary"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text="Class"/>
         <Spinner
-            android:id="@+id/spinner_class"
+            android:id="@+id/spinner_class_secondary"
+            android:layout_margin="2dp"
+            android:padding="2dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"/>
         <TextView
-            android:id="@+id/txt_view_stream"
+            android:layout_margin="2dp"
+            android:textSize="18sp"
+            android:padding="2dp"
+            android:id="@+id/txt_view_stream_secondary"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Subjects"/>
+            android:text="@string/stream"/>
         <Spinner
-            android:id="@+id/spinner_stream"
+            android:layout_margin="2dp"
+            android:padding="2dp"
+            android:id="@+id/spinner_stream_secondary"
             android:layout_width="match_parent"
             android:layout_height="40dp"/>
         <TextView
-            android:id="@+id/txt_view_subjects"
+            android:layout_margin="2dp"
+            android:padding="2dp"
+            android:textSize="18sp"
+            android:id="@+id/txt_view_subjects_secondary"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Subjects"/>
+            android:text="@string/subjects"/>
         <Spinner
-            android:id="@+id/spinner_subjects"
+            android:layout_margin="2dp"
+            android:padding="2dp"
+            android:id="@+id/spinner_subjects_secondary"
             android:layout_width="match_parent"
             android:layout_height="40dp"/>
+        <TextView
+            android:layout_margin="2dp"
+            android:padding="2dp"
+            android:id="@+id/txt_view_subject_paper_secondary"
+            android:layout_width="match_parent"
+            android:textSize="18sp"
+            android:layout_height="40dp"
+            android:text="@string/choose_paper"/>
+        <Spinner
+            android:layout_margin="2dp"
+            android:padding="2dp"
+            android:id="@+id/spinner_subject_paper_secondary"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+        <Button
+            android:layout_margin="4dp"
+            android:padding="4dp"
+            android:id="@+id/btn_list_students_secondary"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="@string/list_students"/>
+
     </LinearLayout>
-    <Button
-        android:layout_margin="4dp"
-        android:padding="4dp"
-        android:id="@+id/btn_list_students_secondary"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:text="List Students"/>
 
 </ScrollView>
