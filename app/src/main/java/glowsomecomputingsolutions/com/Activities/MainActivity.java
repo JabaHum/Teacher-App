@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Users users = intent.getParcelableExtra("Users");
 
-        Toast.makeText(this, users.getSchooltype(), Toast.LENGTH_SHORT).show();
-
+//        Toast.makeText(this, users.getSchooltype(), Toast.LENGTH_SHORT).show();
+    try {
         if (users.getSchooltype()!= null && users.getSchooltype().equals("primary")){
             PrimaryFragment fragment_1 = new PrimaryFragment();
 
@@ -53,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.frame,fragment_2);
             fragmentTransaction.commit();
         }
+
+    }catch (NullPointerException e){
+        e.getMessage();
+    }
 
 
 

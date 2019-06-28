@@ -137,10 +137,14 @@ public class LoginActivity extends AppCompatActivity {
 
                                 }
 
-                                passObject();
+                               // passObject();
                                 //Gson gson1 = new Gson();
                                 //String json_string_2 = gson1.toJson(users);
                                 //intent.putExtra(users_2,json_string_2);
+
+                                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                intent.putExtra("Users",users);
+                                startActivity(intent);
 
                             }catch (JSONException e){
                                 e.printStackTrace();
