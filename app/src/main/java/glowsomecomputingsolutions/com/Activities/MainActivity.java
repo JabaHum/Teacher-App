@@ -1,24 +1,19 @@
 package glowsomecomputingsolutions.com.Activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONObject;
-
+import glowsomecomputingsolutions.com.Fragments.PrimaryFragment;
+import glowsomecomputingsolutions.com.Fragments.SecondaryFragment;
+import glowsomecomputingsolutions.com.Model.Users;
 import glowsomecomputingsolutions.com.R;
-import glowsomecomputingsolutions.com.Utils.AppController;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
@@ -32,6 +27,35 @@ public class MainActivity extends AppCompatActivity {
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
+
+        //Users users = new Users();
+        //recieveObject();
+        //recieving object from login activity
+
+        Intent intent = getIntent();
+        Users users = intent.getParcelableExtra("Users");
+
+        Toast.makeText(this, users.getSchooltype(), Toast.LENGTH_SHORT).show();
+
+        if (users.getSchooltype()!= null && users.getSchooltype().equals("primary")){
+            PrimaryFragment fragment_1 = new PrimaryFragment();
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.frame,fragment_1);
+            fragmentTransaction.commit();
+        }else if (users.getSchooltype()!= null && users.getSchooltype().equals("secondary"))
+        {
+            SecondaryFragment fragment_2 = new SecondaryFragment();
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frame,fragment_2);
+            fragmentTransaction.commit();
+        }
+
+
+
 
 
     }
@@ -54,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.miExit:
                 exitApp();
                 return true;
-                default:
-                    return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -71,5 +95,8 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    private void recieveObject(){
+
+    }
 
 }

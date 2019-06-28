@@ -1,12 +1,11 @@
 package glowsomecomputingsolutions.com.Activities;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,30 +17,32 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
+//import glowsomecomputingsolutions.com.Model.Users;
+import glowsomecomputingsolutions.com.Model.Users;
 import glowsomecomputingsolutions.com.R;
 import glowsomecomputingsolutions.com.Utils.AppController;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private String arrayUrl = "http://192.168.137.1/glowsomecomputingsolutions/v2/glowsomeapi.php";
+    //private String arrayUrl = "http://192.168.137.1/glowsomecomputingsolutions/v2/glowsomeapi.php";
+    private String arrayUrl = "http://www.mocky.io/v2/5d148c3a2f00007405c4f1cc";
+
     private String objectUrl = "http://192.168.137.1/glowsomecomputingsolutions/v1/glowsomeapi.php";
     private ProgressDialog progressDialog;
-    SharedPreferences sharedpreferences;
     EditText nametext;
     EditText emailtext;
     EditText passwordtext;
 
-    ArrayList<HashMap<String, String>> contactList;
 
-    public static final String mypreference = "mypref";
+    //public static final String mypreference = "mypref";
 
     public static final String TAG = LoginActivity.class.getSimpleName();
 
@@ -58,12 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         emailtext = findViewById(R.id.input_email);
         passwordtext = findViewById(R.id.input_password);
 
-        contactList = new ArrayList<>();
-
-
-        sharedpreferences = getSharedPreferences(mypreference,
-                Context.MODE_PRIVATE);
-
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCancelable(false);
@@ -76,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //makeJsonArrayRequest();
 
 
                 String name = nametext.getText().toString().trim();
@@ -85,45 +79,73 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 if (validatelogin(name,email,password)){
-                    makeJsonArrayRequest();
-                    readSharedpreferences();
-                    newActivity();
+                    makeJsonArrayRequest(name,email,password);
                 }
 
             }
         });
 
     }
-
-
-
-    private  void makeJsonArrayRequest(){
+    private  void makeJsonArrayRequest(final String name, final String email, final String password){
         showProgressDialog();
         JsonArrayRequest arrayRequest = new JsonArrayRequest(Request.Method.GET,arrayUrl,null,
                 new Response.Listener<JSONArray>(){
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d(TAG,response.toString());
+
+                        Log.d(TAG, String.valueOf(response));
+
 
                         //parsing json array
                         //looping through json array
-                        try {
-                            JSONArray jsonArray = new JSONArray(arrayUrl);
-                            for (int i = 0;i<jsonArray.length();i++){
+                        //-JSONArray jsonArray = response.getJSONArray(0);
 
-                                JSONObject jsonObject =(JSONObject) jsonArray.get(i);
+                        Log.i(TAG,"Json Array :" +response);
 
-                                //getSharedPreferences("PREFS_NAME",MODE_PRIVATE)
-
-                                SharedPreferences.Editor editor = sharedpreferences.edit();
-                                editor.putString("jsonObjectString", jsonObject.toString());
-                                editor.apply();
+                        //Toast.makeText(LoginActivity.this,"Users"+jsonArray,Toast.LENGTH_SHORT).show();
 
 
+                        for (int i = 0;i<response.length();i++){
 
+                            try {
+
+                                JSONObject jsonObject = response.getJSONObject(i);
+
+                                Log.i(TAG,"Json Object:" +jsonObject);
+
+                                String json_string = jsonObject.toString();
+
+                                Toast.makeText(LoginActivity.this,"Users:" +json_string,Toast.LENGTH_SHORT).show();
+
+
+                                //Users users = new Users(jsonObject);
+                                    Gson gson = new Gson();
+                                    Users users = (Users) gson.fromJson(json_string,Users.class);
+
+                                if(users.getName()!= null && users.getName().equals(name)){
+                                    if (users.getEmail()!= null && users.getEmail().equals(email)){
+                                        if (users.getPassword()!=null&& users.getPassword().equals(password)){
+                                            newActivity();
+                                        }else {
+                                            Toast.makeText(LoginActivity.this,"Wrong Password",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }else {
+                                        Toast.makeText(LoginActivity.this,"Wrong Email",Toast.LENGTH_SHORT).show();
+                                    }
+                                }else{
+                                    Toast.makeText(LoginActivity.this,"Wrong Credentials",Toast.LENGTH_SHORT).show();
+
+                                }
+
+                                passObject();
+                                //Gson gson1 = new Gson();
+                                //String json_string_2 = gson1.toJson(users);
+                                //intent.putExtra(users_2,json_string_2);
+
+                            }catch (JSONException e){
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+
                         }
 
 
@@ -173,30 +195,10 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void readSharedpreferences(){
-        SharedPreferences pref = getSharedPreferences("PREFS_NAME", MODE_PRIVATE);
-
-        String json_object = pref.getString("jsonObjectString", null);
-
-
-        HashMap<String, String> teacher = new HashMap<>();
-
-
-        // adding each child node to HashMap key => value
-        teacher.put("id", id);
-        teacher.put("name", name);
-        teacher.put("email", email);
-        teacher.put("sex", sex);
-        teacher.put("password", password);
-        teacher.put("schooltype", schooltype);
-        teacher.put("level", level);
-        teacher.put("subjects", subjects);
-        teacher.put("paper", paper);
-
-        // adding contact to contact list
-        contactList.add(teacher);
-
-
-        ///mUsers.add(json_object);
+    private void passObject(){
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        intent.putExtra("Users",Users.class);
+        startActivity(intent);
     }
+
 }

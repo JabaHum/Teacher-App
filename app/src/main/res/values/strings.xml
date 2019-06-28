@@ -19,4 +19,41 @@
     <string name="subjects">Subjects</string>
     <string name="stream">Stream</string>
     <string name="list_students">List Students</string>
+    <string-array name="primary_classes">
+        <item>P1</item>
+        <item>P2</item>
+        <item>P3</item>
+        <item>P4</item>
+        <item>P5</item>
+        <item>P6</item>
+        <item>P7</item>
+    </string-array>
+
+    <string-array name="primary_subjects">
+        <item>SocialStudies</item>
+        <item>Science</item>
+        <item>Mathematics</item>
+        <item>SocialStudies</item>
+    </string-array>
+
+    <string-array name="secondary_classes">
+        <item>S1</item>
+        <item>S2</item>
+        <item>S3</item>
+        <item>S4</item>
+        <item>S5</item>
+        <item>S6</item>
+    </string-array>
+
+    <string-array name="class_streams">
+        <item>W</item>
+        <item>X</item>
+        <item>Y</item>
+        <item>Z</item>
+    </string-array>
+    <string-array name="paper">
+        <item>P1</item>
+        <item>P2</item>
+        <item>P3</item>
+    </string-array>
 </resources>
