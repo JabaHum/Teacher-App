@@ -19,6 +19,7 @@
     <string name="subjects">Subjects</string>
     <string name="stream">Stream</string>
     <string name="list_students">List Students</string>
+    <string name="primary_btn_press">Button Pressed</string>
     <string-array name="primary_classes">
         <item>P1</item>
         <item>P2</item>

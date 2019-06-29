@@ -1,6 +1,7 @@
 package glowsomecomputingsolutions.com.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.Objects;
 
 import glowsomecomputingsolutions.com.R;
+import glowsomecomputingsolutions.com.Activities.StudentsListActivity;
 
 
 /**
@@ -23,6 +26,8 @@ public class PrimaryFragment extends Fragment {
 
     Spinner spinner_class;
     Spinner spinner_subjects;
+
+    Button btnListStudents;
 
     public PrimaryFragment() {
         // Required empty public constructor
@@ -38,11 +43,12 @@ public class PrimaryFragment extends Fragment {
 
         spinner_class = view.findViewById(R.id.spinner_class_primary);
         spinner_subjects = view.findViewById(R.id.spinner_subjects_primary);
+        btnListStudents = view.findViewById(R.id.btn_list_students_primary);
 
 //spinner and listener
         class_spinner();
         subjects_spinner();
-
+        btnpress();
         return view;
 
     }
@@ -95,6 +101,17 @@ public class PrimaryFragment extends Fragment {
         });
 
 
+    }
+
+    private void btnpress(){
+        btnListStudents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),StudentsListActivity.class);
+                startActivity(intent);
+                // Toast.makeText(PrimaryFragment.this,getString(R.string.primary_btn_press),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }
