@@ -45,7 +45,7 @@
         <item>S6</item>
     </string-array>
 
-    <string-array name="class_streams">
+    <string-array name="secondary_class_streams">
         <item>W</item>
         <item>X</item>
         <item>Y</item>

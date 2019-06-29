@@ -28,8 +28,7 @@ public class MainActivity extends AppCompatActivity {
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
 
-        //Users users = new Users();
-        //recieveObject();
+
         //recieving object from login activity
 
         Intent intent = getIntent();
