@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 String json_string = jsonObject.toString();
 
-                                Toast.makeText(LoginActivity.this,"Users:" +json_string,Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(LoginActivity.this,"Users:" +json_string,Toast.LENGTH_SHORT).show();
 
 
                                 //Users users = new Users(jsonObject);
@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                 //passing the java object to the main activity
-
+                                //passObject();
                                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                                 intent.putExtra("Users",users);
                                 startActivity(intent);
@@ -199,7 +199,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void passObject(){
         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-        intent.putExtra("Users",Users.class);
+        //intent.putExtra("Users",users);
         startActivity(intent);
     }
 
