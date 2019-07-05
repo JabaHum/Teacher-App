@@ -30,7 +30,9 @@ public class CustomListAdapter extends BaseAdapter {
     public int getCount() {
         return mStudents.size();
     }
-//order  of the argument matters
+
+    //order  of the argument matters
+
     public CustomListAdapter(List<Students> mStudents, Context mContext) {
         this.mStudents = mStudents;
         this.mContext = mContext;
@@ -46,27 +48,39 @@ public class CustomListAdapter extends BaseAdapter {
         return position;
     }
 
+    private class ViewHolder{
+        NetworkImageView thumbNail;
+        TextView mTextView;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        ViewHolder holder;
         if (mLayoutInflater == null)
             mLayoutInflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null)
+        if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.list_view_item, null);
+            holder = new ViewHolder();
+
+            holder.thumbNail = convertView.findViewById(R.id.img_list_view_item);
+            holder.mTextView = convertView.findViewById(R.id.txt_names);
+
+        }else {
+            holder = (ViewHolder) convertView.getTag();
+        }
         if (imageLoader == null)
             imageLoader = AppController.getInstance().getImageLoader();
 
 
-        NetworkImageView thumbNail = convertView.findViewById(R.id.img_list_view_item);
-        TextView names = convertView.findViewById(R.id.txt_names);
 
 
-        // getting movie data for the row
+        // getting students data for the row
         Students students = mStudents.get(position);
 
-        thumbNail.setImageUrl(students.getThumbnailUrl(),imageLoader);
-        names.setText(students.getStudent_name());
+        holder.thumbNail.setImageUrl(students.getThumbnailUrl(),imageLoader);
+        holder.mTextView.setText(students.getStudent_name());
 
 
         return convertView;

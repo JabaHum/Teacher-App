@@ -1,11 +1,20 @@
 package glowsomecomputingsolutions.com.Activities;
 
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.nfc.FormatException;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -18,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +45,7 @@ public class StudentsListActivity extends AppCompatActivity {
     private ListView mlistView;
     private CustomListAdapter adapter;
     private ProgressDialog pDialog;
+    private NfcAdapter nfcAdapter;
     private static  String TAG  = StudentsListActivity.class.getSimpleName();
 
 
@@ -44,6 +55,10 @@ public class StudentsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_students_list);
 
         mlistView = findViewById(R.id.list_view);
+
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        checkNfcAdapter();
+
         //order of the arguments matters
         //settin list view adapter
         adapter = new CustomListAdapter(studentsList, getApplicationContext());
@@ -99,6 +114,9 @@ public class StudentsListActivity extends AppCompatActivity {
                         Gson gson = new Gson();
 
                         Students students1 = gson.fromJson(json_string,Students.class);
+
+                        Log.i(TAG,"Students" +students1);
+
                         studentsList.add(students1);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -114,5 +132,63 @@ public class StudentsListActivity extends AppCompatActivity {
             }
         });
         AppController.getInstance().addToRequestQueue(studentListRequest);
+    }
+
+    private void checkNfcAdapter(){
+        if (nfcAdapter == null){
+            Toast.makeText(StudentsListActivity.this,"NFC is not available for this Device",Toast.LENGTH_SHORT).show();
+        }else {
+
+            Toast.makeText(StudentsListActivity.this, "NFC is available for this Device", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void readTag(){
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())){
+            Tag detectedTag = getIntent().getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            //Log.d(TAG, "detectedTag "+intent.getAction());
+            if(detectedTag != null){
+                Ndef ndef = Ndef.get(detectedTag);
+
+                readFromNFC(ndef);
+
+            }
+
+        }
+    }
+
+    private void readFromNFC(Ndef ndef) {
+
+        try {
+            ndef.connect();
+            NdefMessage ndefMessage = ndef.getNdefMessage();
+            String message = new String(ndefMessage.getRecords()[0].getPayload());
+            Log.d(TAG, "readFromNFC: "+message);
+            Toast.makeText(StudentsListActivity.this,"Message"+message,Toast.LENGTH_SHORT).show();
+            //mTvMessage.setText(message);
+            ndef.close();
+
+        } catch (IOException | FormatException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    @Override
+    protected void onResume() {
+     super.onResume();
+        IntentFilter ndefDetected = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        if(nfcAdapter!= null)
+            nfcAdapter.enableForegroundDispatch(this, pendingIntent, new IntentFilter[]{ndefDetected}, null);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(nfcAdapter!= null)
+            nfcAdapter.disableForegroundDispatch(this);
     }
 }
